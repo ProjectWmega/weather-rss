@@ -5,13 +5,15 @@ require 'builder'
 require 'pry'
 require 'sequel'
 
-before do
+configure do
   DB = Sequel.connect('sqlite://rss.db')
-  @rss = DB[:rssposts]
+
+  class RssPost < Sequel::Model
+  end
 end
 
 get '/' do
-  @posts = @rss.all
+  @posts = RssPost.all
   builder :rss
 end
 
@@ -20,11 +22,13 @@ get '/rsspost/new' do
 end
 
 post '/rssposts' do
+  p params
+
   title   = params['title']
   link    = params['link'] # TDOO: Maybe blog or FB fans page
   content = params['content']
   img_url = params['img_url'] # TODO: img path
 
   # TODO: Insert into db
-  builder :rss
+  # builder :rss
 end
