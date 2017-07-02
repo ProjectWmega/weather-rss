@@ -3,9 +3,15 @@ require 'sinatra/reloader'
 require 'sinatra/activerecord'
 require 'builder'
 require 'pry'
+require 'sequel'
+
+before do
+  DB = Sequel.connect('sqlite://rss.db')
+  @rss = DB[:rssposts]
+end
 
 get '/' do
-  # TODO: @posts will get all posts  
+  @posts = @rss.all
   builder :rss
 end
 
@@ -14,7 +20,6 @@ get '/rsspost/new' do
 end
 
 post '/rssposts' do
-  @posts = []
   title   = params['title']
   link    = params['link'] # TDOO: Maybe blog or FB fans page
   content = params['content']
