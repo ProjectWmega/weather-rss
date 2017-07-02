@@ -12,23 +12,16 @@
   <script src="https://unpkg.com/vue"></script>
 </head>
 <body>
-  <div class="flex-center">
-    <h1>新增RSS文章</h1>
-  </div>
-
   <div class="flex-column">
+    <h1>新增RSS文章</h1>
+
     <form action="/rssposts" method="POST">
-      <div class="">
-        <input type="text" name="title" placeholder="標題">
-      </div>
+      <input type="text" name="title" placeholder="標題">
 
-      <div class="">
-        <textarea name="content" id="content" cols="30" rows="20" placeholder="內容"></textarea>
-      </div>
+      <textarea name="content" id="content" cols="30" rows="20" placeholder="內容"></textarea>
 
-      <div class="">
-        <button type="submit" class="btn">發佈</button>
-      </div>
+      <button type="submit" class="btn">發佈</button>
+
     </form>
   </div>
 
