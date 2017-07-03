@@ -12,8 +12,12 @@ input {
   border: none;
   color: #212121;
   font-weight: bold;
-  font-size: 30px;
+  font-size: 2em;
   font-family: 'Noto Sans TC', sans-serif;
+}
+
+input[type=file] {
+  font-size: 1em;
 }
 
 textarea {
@@ -30,7 +34,6 @@ textarea {
   font-size: 20px;
   font-family: 'Noto Sans TC', sans-serif;
   resize: none;
-
 }
 
 .flex-column {
