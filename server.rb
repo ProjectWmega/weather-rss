@@ -5,11 +5,9 @@ require 'builder'
 require 'pry'
 require 'sequel'
 
-configure do
-  DB = Sequel.connect('sqlite://rss.db')
+DB = Sequel.connect('sqlite://rss.db')
 
-  class RssPost < Sequel::Model
-  end
+class RssPost < Sequel::Model
 end
 
 get '/' do
@@ -22,13 +20,25 @@ get '/rsspost/new' do
 end
 
 post '/rssposts' do
-  p params
+  file_path = saving_img(params[:image][:tempfile])
 
-  title   = params['title']
-  link    = params['link'] # TDOO: Maybe blog or FB fans page
-  content = params['content']
-  img_url = params['img_url'] # TODO: img path
+  # Insert into db
+  DB[:rss_posts].insert({
+    :title   => params['title'],
+    :link    => 'google.com', # TDOO: Maybe blog or FB fans page
+    :content => params['content'],
+    :img_url => file_path
+  })
 
-  # TODO: Insert into db
-  # builder :rss
+  @posts = RssPost.all
+  builder :rss
+end
+
+def saving_img(img_data)
+  file_path = "./images/#{Time.new.strftime '%Y%m%d%H%M%S'}.png"  
+  File.open(file_path, 'wb') do |f|
+    f.write(img_data.read)
+  end
+
+  return file_path
 end

@@ -51,3 +51,6 @@ build-iPhoneSimulator/
 
 # DB
 *.db
+
+# Images
+images/
