@@ -7,5 +7,5 @@ DB.create_table :rss_posts do
   String :title
   text :content
   String :img_url
-  timestamp :created_at
+  timestamp :created_at, :default => Sequel::CURRENT_TIMESTAMP
 end
