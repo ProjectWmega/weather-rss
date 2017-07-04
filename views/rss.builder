@@ -10,7 +10,7 @@ xml.rss :version => "2.0" do
         xml.title       post[:title]
         xml.link        post[:link]
         xml.pubDate     Time.parse(post[:created_at].to_s).rfc822()
-        xml.description post[:description]
+        xml.description post[:content]
         xml.img         'src': post[:img_url]
       end
     end
