@@ -54,3 +54,6 @@ build-iPhoneSimulator/
 
 # Images
 images/
+
+# FB code
+facebook.yml

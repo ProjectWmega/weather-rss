@@ -1,14 +1,19 @@
 require 'sinatra'
 require 'sinatra/reloader'
-require 'sinatra/activerecord'
 require 'builder'
 require 'pry'
 require 'sequel'
 
+require_relative 'src/graph_api'
+
+# Rss Database
 DB = Sequel.connect('sqlite://rss.db')
 
 class RssPost < Sequel::Model
 end
+
+# Facebook Api
+GRAPH = GraphApi.new
 
 get '/' do
   @posts = RssPost.all
@@ -22,6 +27,9 @@ end
 post '/rssposts' do
   file_path = saving_img(params[:image][:tempfile])
 
+  # Post to FB fans page
+  puts GRAPH.post_img(File.open(file_path), params['content'])
+
   # Insert into db
   DB[:rss_posts].insert({
     :title   => params['title'],
@@ -31,11 +39,15 @@ post '/rssposts' do
   })
 
   @posts = RssPost.all
-  builder :rss
+  redirect '/'
+end
+
+get '/fb' do
+  post_2_fans('1', '2')
 end
 
 def saving_img(img_data)
-  file_path = "./images/#{Time.new.strftime '%Y%m%d%H%M%S'}.png"  
+  file_path = "./images/#{Time.new.strftime '%Y%m%d%H%M%S'}.png"
   File.open(file_path, 'wb') do |f|
     f.write(img_data.read)
   end
