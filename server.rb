@@ -28,7 +28,7 @@ post '/rssposts' do
   file_path = saving_img(params[:image][:tempfile])
 
   # Post to FB fans page
-  puts GRAPH.post_img(File.open(file_path), params['content'])
+  GRAPH.post_img(File.open(file_path), params['content']) if params['post_fb']
 
   # Insert into db
   DB[:rss_posts].insert({
@@ -38,7 +38,6 @@ post '/rssposts' do
     :img_url => file_path
   })
 
-  @posts = RssPost.all
   redirect '/'
 end
 
